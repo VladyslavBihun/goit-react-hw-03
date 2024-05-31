@@ -15,10 +15,15 @@ function App() {
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
+  const addContact = (newContact) => {
+    setContacts((prevContacts) => {
+      return [...prevContacts, newContact];
+    });
+  };
   return (
     <div className={css.wrapper}>
       <h1>Phonebook</h1>
-      <ContactForm />
+      <ContactForm onAdd={addContact} />
       <SearchBox value={filter} onFilter={setFilter} />
       <ContactList contacts={filteredContacts} />
     </div>

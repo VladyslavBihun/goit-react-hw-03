@@ -4,12 +4,19 @@ import ContactForm from "./ContactForm/ContactForm";
 import SearchBox from "./SearchBox/SearchBox";
 import ContactList from "./ContactList/ContactList";
 import css from "./App.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(() => {
+    const savedContacts = localStorage.getItem("saved-contacts");
+    return savedContacts ? JSON.parse(savedContacts) : initialContacts;
+  });
 
   const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("saved-contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
@@ -20,6 +27,7 @@ function App() {
       return [...prevContacts, newContact];
     });
   };
+
   const deleteContact = (contactId) => {
     setContacts((prevContacts) => {
       return prevContacts.filter((contact) => contact.id !== contactId);

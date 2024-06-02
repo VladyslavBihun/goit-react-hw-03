@@ -1,3 +1,5 @@
+// SearchBox.jsx
+
 const SearchBox = ({ value, onFilter }) => {
   return (
     <div>
